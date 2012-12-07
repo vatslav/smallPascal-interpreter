@@ -1,13 +1,13 @@
 #ifndef EXPRESSIONS_H_INCLUDED
 #define EXPRESSIONS_H_INCLUDED
-////Арифметические выражения.
+////Arifmeticheskie vyrazhenija.
 
 /*
 
-Выражение = Терм [ + Тер ][- Терм]
-Терм = Фактор [ * Фактор ][ / Фактор ][ div Фактор ][ mod Фактор ]
-Фактор = [+|-]Значение
-Значение = Переменная|Число|(Выражение)
+Vyrazhenie = Term [ + Ter ][- Term]
+Term = Faktor [ * Faktor ][ / Faktor ][ div Faktor ][ mod Faktor ]
+Faktor = [+|-]Znachenie
+Znachenie = Peremennaja|Chislo|(Vyrazhenie)
 
 */
 
@@ -15,36 +15,36 @@
 bool level2(struct Var*), level3(struct Var*), level4(struct Var*);
 bool level5(struct Var*), unary( char, struct Var* ), arith( char, struct Var*, struct Var*);
 bool primitive( struct Var * );
-//levelI: При вызове текущей лексемой должна быть первая лексема обрабатываемой части выражения.
-//При успешном завершении текущей лексемой будет следующая лексема после обрабатываемой части выражения
+//levelI: Pri vyzove tekuwej leksemoj dolzhna byt' pervaja leksema obrabatyvaemoj chasti vyrazhenija.
+//Pri uspeshnom zavershenii tekuwej leksemoj budet sledujuwaja leksema posle obrabatyvaemoj chasti vyrazhenija
 
 bool get_exp_abstract( );
 
 /**@function get_exp_abstract
-расчитывает значение выражения.
-@param result - указатель на существующую ( пустую ) структуру Var, в которую и будет записан результат.*/
+raschityvaet znachenie vyrazhenija.
+@param result - ukazatel' na suwestvujuwuju ( pustuju ) strukturu Var, v kotoruju i budet zapisan rezul'tat.*/
 bool get_exp_abstract( Var* result )
 {
 
   result->value = 0;
-  get_token();//первый вызов, после := ?
+  get_token();//pervyj vyzov, posle := ?
 
   if( !*token )
   {
-    serror("Неверная лексема");
+    serror("Nevernaja leksema");
     return false;
   }
   bool resultExpes = level2( result );
   if(!resultExpes) return false;
-  putback(); /* Возвращает последнюю считанную лексему обратно во входной поток */ //зачем?
+  putback(); /* Vozvrawaet poslednjuju schitannuju leksemu obratno vo vhodnoj potok */ //zachem?
   return true;
 }
 
 /**@function get_exp_as_integer
-обработчик выражений  в которых оба учатника типа integer */
+obrabotchik vyrazhenij  v kotoryh oba uchatnika tipa integer */
 int get_exp_as_integer( bool *ok )
 {
-	struct Var result;//вообще-то надо обнулить указатель, но за нас это сделает get_exp_abstract
+	struct Var result;//voobwe-to nado obnulit' ukazatel', no za nas jeto sdelaet get_exp_abstract
 	bool good = get_exp_abstract( &result );
 	if(!good)
 	{
@@ -74,11 +74,11 @@ int get_exp_as_integer( bool *ok )
 
 
 /**@function get_exp_as_real
-обработчик выражений  в которых оба учатника типа real */
+obrabotchik vyrazhenij  v kotoryh oba uchatnika tipa real */
 
 float get_exp_as_real( bool *ok )
 {
-	struct Var result;//вообще-то надо обнулить указатель, но за нас это сделает get_exp_abstract
+	struct Var result;//voobwe-to nado obnulit' ukazatel', no za nas jeto sdelaet get_exp_abstract
 	bool good = get_exp_abstract( &result ); //
 	if(!good)
 	{
@@ -106,7 +106,7 @@ float get_exp_as_real( bool *ok )
 
 
 /**@function pass_exp_as_real
-Функции пропуска выражения*/
+Funkcii propuska vyrazhenija*/
 void pass_exp_as_real( bool *ok )
 {
 	*ok = true;
@@ -143,7 +143,7 @@ void pass_logic_exp( bool*ok )
 
 
 /**@function level2
- Сложение или вычитание двух термов */
+ Slozhenie ili vychitanie dvuh termov */
 bool level2( struct Var* result )
 {
   register char op;
@@ -155,7 +155,7 @@ bool level2( struct Var* result )
   while( ( op = *token) == '+' || op == '-' )
   {
     get_token();
-    ok = level3( &hold );///т.к. тут не *, то нужен ли &
+    ok = level3( &hold );///t.k. tut ne *, to nuzhen li &
 	if(!ok) return false;
 
     //printf("result=%d, hold=%d\n", *(int*)(result->var), (hold.type) );
@@ -169,7 +169,7 @@ bool level2( struct Var* result )
 }
 
 
-/* Вычисление произведения или частного двух факторов. Ещё целочисленного деления и остатка от деления. */
+/* Vychislenie proizvedenija ili chastnogo dvuh faktorov. Ewjo celochislennogo delenija i ostatka ot delenija. */
 bool level3( struct Var result )
 {
   register char op;
@@ -194,7 +194,7 @@ bool level3( struct Var result )
 
 
 
-/* Унарный + или - */
+/* Unarnyj + ili - */
 bool level4( struct Vars result )
 {
 	register char op;
@@ -215,7 +215,7 @@ bool level4( struct Vars result )
 	return true;
 }
 
-/* Обработку выражения в круглых скобках или получение числа. */
+/* Obrabotku vyrazhenija v kruglyh skobkah ili poluchenie chisla. */
 bool level5( struct Vars result )
 {
 	bool ok;
@@ -241,34 +241,34 @@ bool level5( struct Vars result )
 	return true;
 }
 
-/* Определение значения переменной по её имени */
+/* Opredelenie znachenija peremennoj po ejo imeni */
 bool primitive( struct Vars result )
 {
 	//printf("primitive: token=%s; type=%d\n", token, token_type );//111111111
 	switch( token_type )
 	{
 		case VARIABLE:
-		//getNumberFromVariable из подсистемы variables по имени переменной возвращает
-		//структуру Var, содержащую тип и значение переменной, для массиво автоматически
-		//считывает квадратные скобки и если это элемент массива ( индексов столько, сколько надо ), возвращает его описание, иначе
-		//возвращает пустую структуру Var.
+		//getNumberFromVariable iz podsistemy variables po imeni peremennoj vozvrawaet
+		//strukturu Var, soderzhawuju tip i znachenie peremennoj, dlja massivo avtomaticheski
+		//schityvaet kvadratnye skobki i esli jeto jelement massiva ( indeksov stol'ko, skol'ko nado ), vozvrawaet ego opisanie, inache
+		//vozvrawaet pustuju strukturu Var.
 			*result = getNumberFromVar( token );
-			if ( result->type == 0 ) return false;//если не удалось получить значение.
-			//Здесь важно понимать, что ПЕРЕМЕННАЯ с таким именем точно существует ( иначе ругалась бы get_token, но она
-			//сказала, что это Var ). Посему единственная возможность нештатной ситуации - неправильное количество
-			//индексов или некорркетные значения индексов для переменной-массива.
+			if ( result->type == 0 ) return false;//esli ne udalos' poluchit' znachenie.
+			//Zdes' vazhno ponimat', chto PEREMENNAJa s takim imenem tochno suwestvuet ( inache rugalas' by get_token, no ona
+			//skazala, chto jeto Var ). Posemu edinstvennaja vozmozhnost' neshtatnoj situacii - nepravil'noe kolichestvo
+			//indeksov ili nekorrketnye znachenija indeksov dlja peremennoj-massiva.
 			get_token();
 			return true;
 			break;
 		case CONSTANT:
 			*result = getNumberFromConstant( token );
-			//Раз get_token сказала, что это CONSTANT, значит такая константа точно есть. А это значит, что ошибки точно не будет.
-			//Вот мы ничего и не проверяем.
-			//!!!Полученная структура ни коим образом не связана с той, что хранится в подсистеме Vars.
-			//!!!Указатель var указывает на область памяти, где лежит КОПИЯ значения из подсистемы Vars.
-			//Почему так? Да потому, что если бы result.var указывал на область памяти, где хранится именно значение
-			//переменной ( а не копия значения ), функция arith это значение бы переписала. И такую ошибку отловить очень
-			//трудно...
+			//Raz get_token skazala, chto jeto CONSTANT, znachit takaja konstanta tochno est'. A jeto znachit, chto oshibki tochno ne budet.
+			//Vot my nichego i ne proverjaem.
+			//!!!Poluchennaja struktura ni koim obrazom ne svjazana s toj, chto hranitsja v podsisteme Vars.
+			//!!!Ukazatel' var ukazyvaet na oblast' pamjati, gde lezhit KOPIJa znachenija iz podsistemy Vars.
+			//Pochemu tak? Da potomu, chto esli by result.var ukazyval na oblast' pamjati, gde hranitsja imenno znachenie
+			//peremennoj ( a ne kopija znachenija ), funkcija arith jeto znachenie by perepisala. I takuju oshibku otlovit' ochen'
+			//trudno...
 			get_token();
 			return true;
 			break;
@@ -308,8 +308,8 @@ bool primitive( struct Vars result )
 	}
 }
 
-////// служебные функции /////////
-//выполнение операций для INTEGER
+////// sluzhebnye funkcii /////////
+//vypolnenie operacij dlja INTEGER
 bool int_arith( char o, int* r, int* h )
 {
 
@@ -325,7 +325,7 @@ bool int_arith( char o, int* r, int* h )
 		case '*':
 			*r = *r * *h;
 			break;
-		//case '/': // это обрабатывается в вызывающей процедуре.
+		//case '/': // jeto obrabatyvaetsja v vyzyvajuwej procedure.
 		case 'd':
 
 			if ( *h == 0 )
@@ -347,7 +347,7 @@ bool int_arith( char o, int* r, int* h )
 	return true;
 }
 
-//выполнение операций для REAL
+//vypolnenie operacij dlja REAL
 bool float_arith( char o, float* r, float* h )
 {
 
@@ -388,17 +388,17 @@ bool float_arith( char o, float* r, float* h )
 	return true;
 }
 
-//приведение типа INTEGER к типу REAL
+//privedenie tipa INTEGER k tipu REAL
 
 
 
-/* Выполнение специфицированной арифметики.
-Результат записывается в r */
+/* Vypolnenie specificirovannoj arifmetiki.
+Rezul'tat zapisyvaetsja v r */
 bool arith( char op, struct Var* r, struct Var* h )
 {
 
 
-	if ( r -> type != h-> type )//если нужно приведение типов.
+	if ( r -> type != h-> type )//esli nuzhno privedenie tipov.
 	{
 		struct variable* lowest;
 		if( r->type == INTEGER ) lowest = r;
@@ -421,8 +421,8 @@ bool arith( char op, struct Var* r, struct Var* h )
 	if ( r-> type == INTEGER )
 	{
 	    if ( op == '/' )
-	    //При делении integer-ов в Паскале не происходит отбрасывания дробной части,
-	    //а просиходит переход к типу данных real.
+	    //Pri delenii integer-ov v Paskale ne proishodit otbrasyvanija drobnoj chasti,
+	    //a prosihodit perehod k tipu dannyh real.
 	    {
 	        r->type = REAL;
 	        float result = ((float)(*(int*)(r->var))) / ( * (int*)(h->var));
@@ -445,7 +445,7 @@ bool arith( char op, struct Var* r, struct Var* h )
 
 }
 
-/* Изменение знака */
+/* Izmenenie znaka */
 bool unary( char o, struct variable* r )
 {
 	if ( o == '-' )

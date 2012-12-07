@@ -15,10 +15,10 @@ using std::endl;
 
 
 /**@struct array
- Структура для переменных типа INTEGER/REAL
-int type - Тип идентификатора
-float value - Значение идентификатора
-bool isConst - Константа/переменная
+ Struktura dlja peremennyh tipa INTEGER/REAL
+int type - Tip identifikatora
+float value - Znachenie identifikatora
+bool isConst - Konstanta/peremennaja
 */
 struct Var
 {
@@ -28,12 +28,12 @@ struct Var
 };
 
 /**@struct array
-Структура для массивов типа INTEGER/REAL
-int type - Тип массива
-bool isBig - Многомерный/одномерный массив
-int from - нижняя граница массива
-int to - верхняя граница массива
-float *el - элементы массива
+Struktura dlja massivov tipa INTEGER/REAL
+int type - Tip massiva
+bool isBig - Mnogomernyj/odnomernyj massiv
+int from - nizhnjaja granica massiva
+int to - verhnjaja granica massiva
+float *el - jelementy massiva
 */
 struct Array
 {
@@ -43,45 +43,45 @@ struct Array
     int to;
     int from2;
     int to2;
-    float *el; //указатель на 1 элемент массива
+    float *el; //ukazatel' na 1 jelement massiva
     float **el2;
 };
 
-//Для хранения переменных/констант и массивов используем
-//ассоциативные массивы (карты/контейнеры)
-///Карта для идентификаторов типа INTEGER/REAL
+//Dlja hranenija peremennyh/konstant i massivov ispol'zuem
+//associativnye massivy (karty/kontejnery)
+///Karta dlja identifikatorov tipa INTEGER/REAL
 map <string, Var> Vars;
-///Карта для массивов типа INTEGER/REAL
+///Karta dlja massivov tipa INTEGER/REAL
 map <string, Array> Arrays;
 
-///Итераторы для работы с картами в цикле
+///Iteratory dlja raboty s kartami v cikle
 map <string, Var>::iterator start = Vars.begin ();
 map <string, Array>::iterator start2 = Arrays.begin ();
 
-//Временные объекты наших структур удалил т.к. используем локальные
+//Vremennye ob#ekty nashih struktur udalil t.k. ispol'zuem lokal'nye
 //Var temp;
 //Array temp2;
 
 /**@fuction AddVar
-Функция добавления переменной/константы в карту
+Funkcija dobavlenija peremennoj/konstanty v kartu
 
-name - Имя переменной/константы
-type - Тип переменной/константы
-value - Значение переменой/константы
-constant - Характеристика (true - константа, false - переменная)
+name - Imja peremennoj/konstanty
+type - Tip peremennoj/konstanty
+value - Znachenie peremenoj/konstanty
+constant - Harakteristika (true - konstanta, false - peremennaja)
 */
 bool AddVar (char* name, int type, float value, bool constant)
 {
    Var temp;
-   if (Vars.count(name) == 0) //Если в карте нет переменной с таким именем
+   if (Vars.count(name) == 0) //Esli v karte net peremennoj s takim imenem
    {
        temp.isConst = constant;
        temp.type = type;
-       temp.value = value; //Приводим к типу INTEGER
-       Vars[name] = temp;   //Кидаем в карту новую пееменную/константу
+       temp.value = value; //Privodim k tipu INTEGER
+       Vars[name] = temp;   //Kidaem v kartu novuju peemennuju/konstantu
        return 1;
    }
-   else //Иначе сообщаем, что в карте есть переменная/константа с таким именем
+   else //Inache soobwaem, chto v karte est' peremennaja/konstanta s takim imenem
        {
            printf ("The variable/constant with this name is already exists");
            return 0;
@@ -89,20 +89,20 @@ bool AddVar (char* name, int type, float value, bool constant)
 }
 
 /**@fuction GetTypeVar
-Функция получения типа переменной/константы
+Funkcija poluchenija tipa peremennoj/konstanty
 
-name - Имя переменной/константы
-return - Тип переменной/константы
+name - Imja peremennoj/konstanty
+return - Tip peremennoj/konstanty
 */
 int GetTypeVar (const char* name)
 {
-    if (Vars.count(name) != 0) //Находим переменную/константу в карте
+    if (Vars.count(name) != 0) //Nahodim peremennuju/konstantu v karte
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.type;  //Возвращаем тип
+        //start->second = Vars[name]; //Stavim iterator na nashu nahodku
+        //return start->second.type;  //Vozvrawaem tip
         return Vars[name].type;
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //Inache opovewaem o tom, chto ne nashli nichego s takim imenem
     {
         printf ("The variable/constant with this name isn't exists");
         return 0;
@@ -110,79 +110,79 @@ int GetTypeVar (const char* name)
 }
 
 /**@fuction getValue
-Функция получения значения переменной/константы
+Funkcija poluchenija znachenija peremennoj/konstanty
 
-name - Имя переменной/константы
-return - Значение переменной/константы
+name - Imja peremennoj/konstanty
+return - Znachenie peremennoj/konstanty
 */
 float getValue (const char* name)
 {
-    if (Vars.count(name) != 0) //Находим переменную/константу в карте
+    if (Vars.count(name) != 0) //Nahodim peremennuju/konstantu v karte
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.value;  //Возвращаем значение
+        //start->second = Vars[name]; //Stavim iterator na nashu nahodku
+        //return start->second.value;  //Vozvrawaem znachenie
         return Vars[name].value;
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //Inache opovewaem o tom, chto ne nashli nichego s takim imenem
     {
         printf ("The variable/constant with this name isn't exists");
         return -1.0;
     }
 }
- ///Получить значение одномерного массива
+ ///Poluchit' znachenie odnomernogo massiva
 float getValue (const char* name, int index)
 {
 
-    if (Arrays.count(name) != 0) //Находим переменную/константу в карте
+    if (Arrays.count(name) != 0) //Nahodim peremennuju/konstantu v karte
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.value;  //Возвращаем значение
+        //start->second = Vars[name]; //Stavim iterator na nashu nahodku
+        //return start->second.value;  //Vozvrawaem znachenie
         if (index > Arrays[name].to or index<Arrays[name].from)
-          throw "Индекс массива, выходит за его пределы";
+          throw "Indeks massiva, vyhodit za ego predely";
         return Arrays[name].el[index-Arrays[name].from];
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //Inache opovewaem o tom, chto ne nashli nichego s takim imenem
     {
         printf ("The variable/constant with this name isn't exists");
         return -1.0;
     }
 }
 
- ///Получить значение двумерного массива
+ ///Poluchit' znachenie dvumernogo massiva
 float getValue (const char* name, int index, int index2)
 {
 
-    if (Arrays.count(name) != 0) //Находим переменную/константу в карте
+    if (Arrays.count(name) != 0) //Nahodim peremennuju/konstantu v karte
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.value;  //Возвращаем значение
+        //start->second = Vars[name]; //Stavim iterator na nashu nahodku
+        //return start->second.value;  //Vozvrawaem znachenie
         if (index > Arrays[name].to or index<Arrays[name].from or index2 > Arrays[name].to2 or index2<Arrays[name].from2)
-          throw "Индекс массива, выходит за его пределы";
+          throw "Indeks massiva, vyhodit za ego predely";
         return Arrays[name].el2[index-Arrays[name].from][index2-Arrays[name].from2];
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //Inache opovewaem o tom, chto ne nashli nichego s takim imenem
     {
         printf ("The variable/constant with this name isn't exists");
-        throw "Неверное имя массива";
+        throw "Nevernoe imja massiva";
     }
 }
 
 /**@fuction isConst
-Функция проверки на константу
+Funkcija proverki na konstantu
 
-name - Имя переменной/константы
-return - Характеристика (true - константа, false - переменная)
+name - Imja peremennoj/konstanty
+return - Harakteristika (true - konstanta, false - peremennaja)
 */
 bool isConst (const char* name)
 {
-    if (Vars.count(name) != 0) //Находим переменную/константу в карте
+    if (Vars.count(name) != 0) //Nahodim peremennuju/konstantu v karte
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.isConst; //Возвращаем характеристику (true - константа, false - переменная)
+        //start->second = Vars[name]; //Stavim iterator na nashu nahodku
+        //return start->second.isConst; //Vozvrawaem harakteristiku (true - konstanta, false - peremennaja)
 
         return Vars[name].isConst;
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //Inache opovewaem o tom, chto ne nashli nichego s takim imenem
     {
         printf ("The variable/constant with this name isn't exists");
         return 0;
@@ -190,7 +190,7 @@ bool isConst (const char* name)
 }
 
 /**@fuction fuction
-Функция вывода содержания всех карт на экран (для теста)*/
+Funkcija vyvoda soderzhanija vseh kart na jekran (dlja testa)*/
 void printVars ()
 {
     printf ("Name\t\tValue\t\tType\n\n");
@@ -203,7 +203,7 @@ void printVars ()
             printf ("%s\t\t%5.3f\t\t%d - %s\n", start->first.c_str(), getValue(start->first.c_str()), GetTypeVar (start->first.c_str() ), typeToName(GetTypeVar (start->first.c_str() )) );
 
 }
-/**выводит содержимое массивов, для отладки*/
+/**vyvodit soderzhimoe massivov, dlja otladki*/
 void printArrays()
 {
     printf ("Name\t\tDimension\t\tType\n\n");
@@ -212,13 +212,13 @@ void printArrays()
       {
           if (start2->second.type == INTEGER)
           {
-             cout<<start2->first.c_str()<<"\t\tОдномерный\t\tINTEGER\n";
+             cout<<start2->first.c_str()<<"\t\tOdnomernyj\t\tINTEGER\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
                 cout<<"|"<<(int)Arrays[start2->first].el[i]<<"|";
           }
           else
           {
-             cout<<start2->first.c_str()<<"\t\tОдномерный\t\tREAL\n";
+             cout<<start2->first.c_str()<<"\t\tOdnomernyj\t\tREAL\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
                 cout<<"|"<<Arrays[start2->first].el[i]<<"|";
           }
@@ -227,7 +227,7 @@ void printArrays()
        {
           if (start2->second.type == INTEGER)
           {
-             cout<<start2->first.c_str()<<"\t\tДвумерный\t\tINTEGER\n";
+             cout<<start2->first.c_str()<<"\t\tDvumernyj\t\tINTEGER\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
              {
                  for (int j = 0; j < Arrays[start2->first].to2 - Arrays[start2->first].from2; j++)
@@ -237,7 +237,7 @@ void printArrays()
           }
           else
           {
-             cout<<start2->first.c_str()<<"\t\tДвумерный\t\tREAL\n\n";
+             cout<<start2->first.c_str()<<"\t\tDvumernyj\t\tREAL\n\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
              {
                  for (int j = 0; j < Arrays[start2->first].to2 - Arrays[start2->first].from2; j++)
@@ -264,22 +264,22 @@ void printArrays()
         cout<<endl;
     }*/
 
-/*Олег, тут надо проходить итератором по всем именам, потом используя имя и помня о isBig выводить содержимое*/
+/*Oleg, tut nado prohodit' iteratorom po vsem imenam, potom ispol'zuja imja i pomnja o isBig vyvodit' soderzhimoe*/
 
 }
 
 
 /**@function ReadFromTo
-чтение Нижней границы массива (любой)*/
+chtenie Nizhnej granicy massiva (ljuboj)*/
 int ReadFromTo ()
 {
-    get_token(); //Считываем границу массива
-    ///если границ - число
-	if (token_type == INTEGER)
+    get_token(); //Schityvaem granicu massiva
+    ///esli granic - chislo
+  if (token_type == INTEGER)
     {
         if (atoi(token) < 0)
         {
-            printf ("Граница массива должна быть >= 0\n");
+            printf ("Granica massiva dolzhna byt' >= 0\n");
             return -1;
         }
 
@@ -290,26 +290,26 @@ int ReadFromTo ()
         }
         //temp2.from = atoi(token);
     }
-    ///если граница - переменнвя
+    ///esli granica - peremennvja
     if (token_type == VARIABLE)
     {
 
         if (GetTypeVar (token) != INTEGER)
         {
-            printf ("Граница массива должна быть типа INTEGER\n");
+            printf ("Granica massiva dolzhna byt' tipa INTEGER\n");
             return -1;
         }
 
 
         if (isConst (token) != true)
         {
-            printf ("Переменная не может быть границей массива\n");
+            printf ("Peremennaja ne mozhet byt' granicej massiva\n");
             return -1;
         }
 
         if (getValue (token) < 0)
         {
-            printf ("Граница массива должна быть >= 0\n");
+            printf ("Granica massiva dolzhna byt' >= 0\n");
             return -1;
         }
             //std::cout<<5;//getValue(token);
@@ -324,7 +324,7 @@ int ReadFromTo ()
 }
 
 
-/**@function AddArray добавляет переменные в карту переменных
+/**@function AddArray dobavljaet peremennye v kartu peremennyh
 */
 int AddArray (const char* name)
 {
@@ -332,69 +332,69 @@ int AddArray (const char* name)
    int from, to, from2, to2;
    Array temp;
 
-   temp.isBig = false;// одномерный массив, по умолчанию
+   temp.isBig = false;// odnomernyj massiv, po umolchaniju
 
-    get_token();  //Считываем служебное слово "array"
+    get_token();  //Schityvaem sluzhebnoe slovo "array"
     pres(int(tok));
     if ( tok != ARRAY )
-	{
-		printf ("Expected 'ARRAY'");
-		return ERROR;
-	}
+  {
+    printf ("Expected 'ARRAY'");
+    return ERROR;
+  }
 
-	get_token(); //Считываем "["
+  get_token(); //Schityvaem "["
    pres(token);
-	if ( token[0] != '[' )
-	{
-		printf ("Expected '['");
-		return ERROR;
-	}
+  if ( token[0] != '[' )
+  {
+    printf ("Expected '['");
+    return ERROR;
+  }
 
-	from = ReadFromTo (); //Считывание нижней границы массива
-	pres(from);
-	if ( from == -1 )
-		return ERROR;
+  from = ReadFromTo (); //Schityvanie nizhnej granicy massiva
+  pres(from);
+  if ( from == -1 )
+    return ERROR;
 
 
-   get_token(); //Считываем разделители границ массива ".."
-	pres(token);
-	if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
-	{
-		printf ("Expected '..'");
-		return ERROR;
-	}
+   get_token(); //Schityvaem razdeliteli granic massiva ".."
+  pres(token);
+  if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
+  {
+    printf ("Expected '..'");
+    return ERROR;
+  }
 
-	get_token();
-	pres(token);
-	if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
-	{
-		printf("Expected '..'");
-		return ERROR;
-	}
+  get_token();
+  pres(token);
+  if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
+  {
+    printf("Expected '..'");
+    return ERROR;
+  }
 
-	to = ReadFromTo (); //Считывание верхней границы массива
-	pres(to);
-	if ( to == -1 )
-		return ERROR;
+  to = ReadFromTo (); //Schityvanie verhnej granicy massiva
+  pres(to);
+  if ( to == -1 )
+    return ERROR;
 
     if (to <= from)
     {
-        printf("Верхняя граница массива должна быть больше нижней");
+        printf("Verhnjaja granica massiva dolzhna byt' bol'she nizhnej");
         return ERROR;
     }
 
     get_token();
     pres(token,"token");
-    //если массив двумерный
-	if( token_type == DELIMITER && token[0] == ',' )
-	{
+    //esli massiv dvumernyj
+  if( token_type == DELIMITER && token[0] == ',' )
+  {
 
-        from2 = ReadFromTo (); //Считывание нижней границы массива
+        from2 = ReadFromTo (); //Schityvanie nizhnej granicy massiva
         pres(from2);
         if ( from2 == -1 )
             return ERROR;
 
-        get_token(); //Считываем разделители границ массива ".."
+        get_token(); //Schityvaem razdeliteli granic massiva ".."
         pres(token);
         if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
         {
@@ -410,18 +410,18 @@ int AddArray (const char* name)
             return ERROR;
         }
 
-        to2 = ReadFromTo (); //Считывание верхней границы массива
-    	pres(to2);
-    	//std::cout<<to2<<endl;
+        to2 = ReadFromTo (); //Schityvanie verhnej granicy massiva
+      pres(to2);
+      //std::cout<<to2<<endl;
         if ( to2 == -1 )
             return ERROR;
 
         if (to2 <= from2)
         {
-            printf("Верхняя граница массива должна быть больше нижней\n");
+            printf("Verhnjaja granica massiva dolzhna byt' bol'she nizhnej\n");
             return ERROR;
         }
-        //наше гениальное выделение памяти :)
+        //nashe genial'noe vydelenie pamjati :)
         temp.to2 = to2;
         temp.from2 = from2;
         temp.isBig = true;
@@ -429,18 +429,18 @@ int AddArray (const char* name)
         temp.from = from;
         temp.el = NULL;
 
-        temp.el2 = new float* [to-from]; //Выделение памяти под строки
+        temp.el2 = new float* [to-from]; //Vydelenie pamjati pod stroki
         for (int i=0; i<to-from; i++)
         {
-            temp.el2[i] = new float [to2-from2]; //Выделение памяти под столбцы
+            temp.el2[i] = new float [to2-from2]; //Vydelenie pamjati pod stolbcy
 
-            if (testing) // если отладка, то заполняем индексами, иначе нулями
+            if (testing) // esli otladka, to zapolnjaem indeksami, inache nuljami
                 for (int j=0; j<to2-from2;j++)
                 {
                     temp.el2[i][j]=(float)j;
                     cout<<temp.el2[i][j];
                 }
-                    //тут было temp.el[j]=j; - найди, 2 отличия :)
+                    //tut bylo temp.el[j]=j; - najdi, 2 otlichija :)
             else
                 for (int j=0; j<to2-from2;j++)
                 {
@@ -448,10 +448,10 @@ int AddArray (const char* name)
                     cout<<temp.el2[i][j];
                 }
 
-             /**   // объявление двумерного динамического массива на 10 элементов:
-float **ptrarray = new float* [2]; // две строки в массиве
+             /**   // ob#javlenie dvumernogo dinamicheskogo massiva na 10 jelementov:
+float **ptrarray = new float* [2]; // dve stroki v massive
     for (int count = 0; count < 2; count++)
-        ptrarray[count] = new float [5]; // и пять столбцов*/
+        ptrarray[count] = new float [5]; // i pjat' stolbcov*/
 
 //                memset(temp.el2[i], 0, to2-from2);
             cout<<endl;
@@ -462,7 +462,7 @@ float **ptrarray = new float* [2]; // две строки в массиве
         //Arrays[name] = temp;
 
 
-        get_token(); //Считываем "["
+        get_token(); //Schityvaem "["
         pres(token);
     }
 
@@ -470,37 +470,37 @@ float **ptrarray = new float* [2]; // две строки в массиве
     {
         get_token();
         pres((int)tok);
-		if ( (int)tok != OF )
-		{
-			serror("Expected 'of'\n");
-			return ERROR;
-		}
+    if ( (int)tok != OF )
+    {
+      serror("Expected 'of'\n");
+      return ERROR;
+    }
 
-		get_token();
-		pres((int)token_type);
-		//if( token_type == ERROR ) return false;
+    get_token();
+    pres((int)token_type);
+    //if( token_type == ERROR ) return false;
 
-		if ( (int)tok == INTEGER )
-		{
-		    temp.type = INTEGER;
-		}
+    if ( (int)tok == INTEGER )
+    {
+        temp.type = INTEGER;
+    }
         else if ( (int)tok == REAL )
-		{
-		    temp.type = REAL;
-		}
-		else
-		{
-		    serror("Expected 'INTEGER' or 'REAL'\n");
-			return ERROR;
-		}
+    {
+        temp.type = REAL;
+    }
+    else
+    {
+        serror("Expected 'INTEGER' or 'REAL'\n");
+      return ERROR;
+    }
 
-       //САМО  выделение!
+       //SAMO  vydelenie!
        if (!temp.isBig)
        {
            temp.from = from;
            temp.to = to;
            temp.el = new float [to-from];
-           //если отладка, то заполняем индексами, иначе нулями
+           //esli otladka, to zapolnjaem indeksami, inache nuljami
            if (testing)
                for (int i=0;i<to-from;i++)
                        temp.el[i]=i;

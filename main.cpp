@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    setlocale (LC_ALL,"RUS");
+    //setlocale (LC_ALL,"RUS");
    /* prog = "Program Test\n"
     "c:=3 "
     "const a=5+2+g, b=3;\n"
@@ -18,8 +18,8 @@ int main()
     "Begin\n"
     "    write (a);\n"
     "    read (k);\n"
-    "{ Комментарий     \n"
-    "    Продолжение  }\n"
+    "{ Kommentarij     \n"
+    "    Prodolzhenie  }\n"
     "    if a>=b then i:=a+1 else j:=b+1\n"
     "    for i:=1 to a do i:=i*j;\n"
     "    while (i>0) i:= i - 2\n"
@@ -27,24 +27,24 @@ int main()
     //" (1243+236)bsg+43.36";
     printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
     while(1)
-	{
-	  int result = get_token();
-	  ///еслkи ошибки или конец программы.
-		if (result==9 || result==18)
-		{
-		  //int a;
-		  break;
+    {
+      int result = get_token();
+      ///eslki oshibki ili konec programmy.
+        if (result==9 || result==18)
+        {
+          //int a;
+          break;
 
-		}
-		printf("%s \t\t%d - %s \t\t%d - %s", token, token_type,typeToName(token_type), tok,typeToName(tok) );
-		getchar();
-	}*/
-	AddVar ("_s",INTEGER,0,true);
-	AddVar ("s",INTEGER,5,true);
+        }
+        printf("%s \t\t%d - %s \t\t%d - %s", token, token_type,typeToName(token_type), tok,typeToName(tok) );
+        getchar();
+    }*/
+    AddVar ("_s",INTEGER,0,true);
+    AddVar ("s",INTEGER,5,true);
 
 
    AddVar ("se3",REAL,112.75,false);
-	AddVar ("awf3",REAL,0.53,false);
+    AddVar ("awf3",REAL,0.53,false);
 
 
     prog = "array [_s..s,0..10] of integer";
