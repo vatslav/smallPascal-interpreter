@@ -4,17 +4,17 @@
 #include "Globals.h"
 #include <stdio.h>
 
-/* Чтение лексемы. */
+/* Chtenie leksemy. */
 char get_token()
 {
   register char *temp;
   token_type = 0; tok = 0;
   temp = token;
 
-  while(iswhite(*prog)) ++prog; /* Пропуск пробелов */
+  while(iswhite(*prog)) ++prog; /* Propusk probelov */
 
-  if (*prog == '{') /* КОММЕНТАРИИ */
-  { // У комментариев нет внутреннего представления и типа. Они просто пропускаются
+  if (*prog == '{') /* KOMMENTARII */
+  { // U kommentariev net vnutrennego predstavlenija i tipa. Oni prosto propuskajutsja
     int cnt = 1;
     while (cnt != 0)
     {
@@ -25,123 +25,123 @@ char get_token()
          cnt--;
       else if (*prog == '\0')
       {
-          printf("Error: Отсутствует парный символ к '{'");
+          printf("Error: Otsutstvuet parnyj simvol k '{'");
           break;
       }
     }
     if ( *prog ) prog++;
-	while(iswhite(*prog)) ++prog; /* Пропуск пробелов */
+  while(iswhite(*prog)) ++prog; /* Propusk probelov */
   }
 
-  if(*prog == '\0') /* КОНЕЦ ФАЙЛА */
+  if(*prog == '\0') /* KONEC FAJLA */
   {
     *token=0;
     tok = 0;
     return (token_type=FINISHED); //
   }
 
-  if (strchr(".,:;()[]", *prog)) /* РАЗДЕЛИТЕЛЬ */
+  if (strchr(".,:;()[]", *prog)) /* RAZDELITEL'' */
   {
-    bool assign = false; //Признак присваивания
+    bool assign = false; //Priznak prisvaivanija
     *temp = *prog;
 
-    if (*temp == ':')  //Если наткнулись на ":",
-       assign = true;  //  возможно это присваивание
+    if (*temp == ':')  //Esli natknulis' na ":",
+       assign = true;  //  vozmozhno jeto prisvaivanie
 
-    prog++; // Переход на следующую позицию
+    prog++; // Perehod na sledujuwuju poziciju
     temp++;
 
-    if (*prog == '=' and assign == true)  //Если встретили "=" после ":",
-    {                                    //  значит это точно присваивание
+    if (*prog == '=' and assign == true)  //Esli vstretili "=" posle ":",
+    {                                    //  znachit jeto tochno prisvaivanie
         *temp = *prog;
         prog++;
         temp++;
         *temp = 0;
-        tok = ASSIGNMENT;  //Внутреннее представление присваивания.
-        return ( token_type = OPERATOR ); // Тип "ОПЕРАТОР"
+        tok = ASSIGNMENT;  //Vnutrennee predstavlenie prisvaivanija.
+        return ( token_type = OPERATOR ); // Tip "OPERATOR"
     }
 
     *temp = 0;
-    return (token_type = DELIMITER);  // Тип "РАЗДЕЛИТЕЛЬ"
+    return (token_type = DELIMITER);  // Tip "RAZDELITEL''"
   }
 
-  if (strchr("+-*/=<>", *prog)) /* ОПЕРАТОР */
+  if (strchr("+-*/=<>", *prog)) /* OPERATOR */
   {
-    bool two_symb = false; //Признак двухсимвольного оператора "<=", ">=" или "<>"
+    bool two_symb = false; //Priznak dvuhsimvol'nogo operatora "<=", ">=" ili "<>"
     *temp = *prog;
 
-    if(*prog == '<' or *prog == '>') //Если наткнулись на "<" или ">",
-       two_symb = true;              //  возможно это двухсимвольный оператор "<=", ">=" или "<>"
+    if(*prog == '<' or *prog == '>') //Esli natknulis' na "<" ili ">",
+       two_symb = true;              //  vozmozhno jeto dvuhsimvol'nyj operator "<=", ">=" ili "<>"
 
-    prog++; // Переход на следующую позицию
-	temp++;
+    prog++; // Perehod na sledujuwuju poziciju
+  temp++;
 
     if (two_symb == true)
         if( (*temp == '=') or (*(temp-1) == '<' and *temp == '>' ) )
-        {         //Если встретили "=" после "<" или ">" ("<=",">=") или
-           *temp = *prog;  // ">" после "<" ("<>"), значит оператор двухсимвольный
+        {         //Esli vstretili "=" posle "<" ili ">" ("<=",">=") ili
+           *temp = *prog;  // ">" posle "<" ("<>"), znachit operator dvuhsimvol'nyj
            prog++;
            temp++;
         }
 
     *temp = 0;
-    return (token_type = OPERATOR);  // Тип "ОПЕРАТОР"
+    return (token_type = OPERATOR);  // Tip "OPERATOR"
   }
 
-  if(isdigit(*prog) == true) /* ЧИСЛО */
+  if(isdigit(*prog) == true) /* ChISLO */
   {
-    while (isdigit(*prog) == true) //Пока встречаем числа, считываем
+    while (isdigit(*prog) == true) //Poka vstrechaem chisla, schityvaem
        *temp++=*prog++;
 
-    if(*prog == '.') //Если наткнулись на точку, то это либо вещественное число "REAL",
-    {                //либо диапазон индексов внутри массива
-      if (*(prog+1) == '.')//Если 2 точки подряд, значит
-      {                    //это диапазон индексов внутри массива "A:array [3..12]"
+    if(*prog == '.') //Esli natknulis' na tochku, to jeto libo vewestvennoe chislo "REAL",
+    {                //libo diapazon indeksov vnutri massiva
+      if (*(prog+1) == '.')//Esli 2 tochki podrjad, znachit
+      {                    //jeto diapazon indeksov vnutri massiva "A:array [3..12]"
         *temp = 0;
-        return (token_type = INTEGER); //Тип "ЦЕЛОЕ ЧИСЛО"
+        return (token_type = INTEGER); //Tip "CELOE ChISLO"
       }
 
       *temp++ = '.';
       prog++;
-      while(isdigit(*prog) == true) //Пока встречаем числа, считываем
+      while(isdigit(*prog) == true) //Poka vstrechaem chisla, schityvaem
          *temp++ = *prog++;
 
-      if(*(prog-1) == '.')   // Если цикл ни разу не выполнился,
-      {                      // значит некорректное выражение типа "17.a"
+      if(*(prog-1) == '.')   // Esli cikl ni razu ne vypolnilsja,
+      {                      // znachit nekorrektnoe vyrazhenie tipa "17.a"
         *token = '\0';
         printf("ERROR! Expected REAL number\n");
-        return (token_type = ERROR); //Тип "ОШИБКА"
+        return (token_type = ERROR); //Tip "OShIBKA"
       }
 
-      if (isdelim(*prog) == false)  //Если не встретили разделителя или оператора,
-      {                              // значит некорректное выражение типа "17.23a"
+      if (isdelim(*prog) == false)  //Esli ne vstretili razdelitelja ili operatora,
+      {                              // znachit nekorrektnoe vyrazhenie tipa "17.23a"
         *token = 0;
         printf("ERROR! Expected REAL number\n");
-        return (token_type = ERROR);  //Тип "ОШИБКА"
+        return (token_type = ERROR);  //Tip "OShIBKA"
       }
 
       *temp = '\0';
-      return(token_type = REAL); //Тип "ВЕЩЕСТВЕННОЕ ЧИСЛО"
+      return(token_type = REAL); //Tip "VEWESTVENNOE ChISLO"
     }
-    else if (isdelim(*prog) == false) //Если не встретили разделителя или оператора,
-    {                                  // значит некорректное выражение типа "17a"
+    else if (isdelim(*prog) == false) //Esli ne vstretili razdelitelja ili operatora,
+    {                                  // znachit nekorrektnoe vyrazhenie tipa "17a"
       *token = 0;
       printf("ERROR! Expected INTEGER number\n");
-      return (token_type = ERROR);  //Тип "ОШИБКА"
+      return (token_type = ERROR);  //Tip "OShIBKA"
     }
 
-	*temp = '\0';
-	return(token_type = INTEGER); //Тип "ЦЕЛОЕ ЧИСЛО"
+  *temp = '\0';
+  return(token_type = INTEGER); //Tip "CELOE ChISLO"
   }
 
-  if(isalpha(*prog) or *prog == '_') /* Имя "ИДЕНТИФИКАТОРА", "ОПЕРАТОРА" или "СЛУЖЕБНОЕ СЛОВО"*/
+  if(isalpha(*prog) or *prog == '_') /* Imja "IDENTIFIKATORA", "OPERATORA" ili "SLUZhEBNOE SLOVO"*/
   {
-    //Правила построения имен идентификаторов:
-    //  1) Имя начинается с латинской буквы или символа '_'.
-    //  2) Остальными символами могут быть латинские буквы, цифры и '_': _A2_B, A2.
-    //Имена операторов и служ. слова состоят только из латинских букв: IF, For и т.д.
+    //Pravila postroenija imen identifikatorov:
+    //  1) Imja nachinaetsja s latinskoj bukvy ili simvola '_'.
+    //  2) Ostal'nymi simvolami mogut byt' latinskie bukvy, cifry i '_': _A2_B, A2.
+    //Imena operatorov i sluzh. slova sostojat tol'ko iz latinskih bukv: IF, For i t.d.
 
-    //Cчитываем имя пока встречаем буквы, цифры или '_'
+    //Cchityvaem imja poka vstrechaem bukvy, cifry ili '_'
     int ptr=0;
     while(is_good_name (*prog))
     {
@@ -149,38 +149,38 @@ char get_token()
       ptr++;
     }
 
-    //Eсли встретили неподходящий символ вместо разделителя, выдаем ошибку
+    //Esli vstretili nepodhodjawij simvol vmesto razdelitelja, vydaem oshibku
     if (!isdelim (*prog)) //
     {
         *token = 0;
         printf("ERROR! Uncorrect IDENTIFIER or OPERATOR name\n");
-        return ( token_type = ERROR ); //Тип "ОШИБКА"
+        return ( token_type = ERROR ); //Tip "OShIBKA"
     }
     if (ptr>8)
     {
         *token = 0;
         printf("ERROR! name of variable > 8\n");
-        return ( token_type = ERROR ); //Тип "ОШИБКА"
+        return ( token_type = ERROR ); //Tip "OShIBKA"
     }
     *temp = 0;
 
-    char type; //Тип лексемы
-    tok = look_up(token, &type); // Преобразование во внутренний формат.
+    char type; //Tip leksemy
+    tok = look_up(token, &type); // Preobrazovanie vo vnutrennij format.
 
-    if ( type != 0 ) //Если нашли лексему среди "ОПЕРАТОРОВ" или "СЛУЖЕБНЫХ СЛОВ", возвращаем тип лексемы
+    if ( type != 0 ) //Esli nashli leksemu sredi "OPERATOROV" ili "SLUZhEBNYH SLOV", vozvrawaem tip leksemy
         return ( token_type = type );
-    else //Иначе имеем дело с "ИДЕНТИФИКАТОРОМ": переменной или константой
+    else //Inache imeem delo s "IDENTIFIKATOROM": peremennoj ili konstantoj
     {
       return ( token_type = VARIABLE );
-        ///Надо обдумать
+        ///Nado obdumat'
     }
   }
-  ///по идее надо бы сообщить об ошибки, что неверное имя переменной (оператора
+  ///po idee nado by soobwit' ob oshibki, chto nevernoe imja peremennoj (operatora
   else
-    {///это наше--
+    {///jeto nashe--
       *token = 0;
       printf("ERROR! Uncorrect IDENTIFIER or OPERATOR name\n");
-      return ( token_type = ERROR ); //Тип "ОШИБКА"
+      return ( token_type = ERROR ); //Tip "OShIBKA"
     }
 }
 

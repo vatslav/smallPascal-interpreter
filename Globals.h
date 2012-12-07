@@ -7,25 +7,25 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-///Типы лексем (token_type)
+///Tipy leksem (token_type)
 
-   #define DELIMITER  1 //Разделитель: . , : ; ( ) [ ] \r \0
-   #define VARIABLE   2 //Переменная
-   #define CONSTANT   3 //Константа
-   #define OPERATOR   4 //Оператор: := + - * / = < > <= >= <> if thrn else for to downto read write writeln begin end
-   #define SYSTEM     5 //Служебное слово: program var const integer real array of true false
-   #define QUOTE      6 //Кавычки:
-   #define INTEGER    7 //Целое число: 15, -3
-   #define REAL       8 //Вещественное число: 35.35, -13.9
-   #define ERROR      9 //Ошибка
-   ///ДОБАВИЛ недавно для putback и обработки " " в writeln() нужно сделать поддержку в get_token()
+   #define DELIMITER  1 //Razdelitel': . , : ; ( ) [ ] \r \0
+   #define VARIABLE   2 //Peremennaja
+   #define CONSTANT   3 //Konstanta
+   #define OPERATOR   4 //Operator: := + - * / = < > <= >= <> if thrn else for to downto read write writeln begin end
+   #define SYSTEM     5 //Sluzhebnoe slovo: program var const integer real array of true false
+   #define QUOTE      6 //Kavychki:
+   #define INTEGER    7 //Celoe chislo: 15, -3
+   #define REAL       8 //Vewestvennoe chislo: 35.35, -13.9
+   #define ERROR      9 //Oshibka
+   ///DOBAVIL nedavno dlja putback i obrabotki " " v writeln() nuzhno sdelat' podderzhku v get_token()
    #define STRING     47
    #define RESERVED    5
 
-///Внутренне представление лексем (tok)
-///Если tok=0, то представления нет
+///Vnutrenne predstavlenie leksem (tok)
+///Esli tok=0, to predstavlenija net
 
-   ///Служебные слова
+   ///Sluzhebnye slova
 
    #define PROGRAMM   10
    #define VAR        11
@@ -37,9 +37,9 @@ using std::endl;
    #define TRUE       100
    #define FALSE      -1
 
-   ///Операторы
+   ///Operatory
 
-   #define ASSIGNMENT 19 //Оператор присваивания :=
+   #define ASSIGNMENT 19 //Operator prisvaivanija :=
    #define IF         20
    #define THEN       21
    #define ELSE       22
@@ -52,10 +52,10 @@ using std::endl;
    #define WRITE      29
    #define WRITELN    30
 
-   ///Оставшиеся разделители
+   ///Ostavshiesja razdeliteli
 
-   #define EOL        17 //Конец строки: \n
-   #define FINISHED   18 //Конец файла (кода программы): \0
+   #define EOL        17 //Konec stroki: \n
+   #define FINISHED   18 //Konec fajla (koda programmy): \0
 
 struct commands
 {
@@ -63,52 +63,52 @@ struct commands
     char tok;
 };
 
-//Служебные слова
+//Sluzhebnye slova
 struct commands SYSTEM_table[] =
 {
-	{ "program", PROGRAMM },
-	{ "var", VAR },
-	{ "const", CONST },
+  { "program", PROGRAMM },
+  { "var", VAR },
+  { "const", CONST },
     { "integer", INTEGER },
-	{ "real", REAL },
-	{ "array", ARRAY },
-	{ "of", OF },
-	{ "true", TRUE },
-	{ "false", FALSE },
-	{ "", 0 }//просто признак конца массива
+  { "real", REAL },
+  { "array", ARRAY },
+  { "of", OF },
+  { "true", TRUE },
+  { "false", FALSE },
+  { "", 0 }//prosto priznak konca massiva
 };
 
-//Операторы
+//Operatory
 struct commands OPERATORS_table[] =
 {
-	{ "if", IF },
-	{ "then", THEN },
-	{ "else", ELSE },
-	{ "while", WHILE },
-	{ "do", DO },
-	{ "for", FOR },
-	{ "to", TO },
-	{ "downto", DOWNTO },
-	{ ":=", ASSIGNMENT },
-	{ "read", READ},
-	{ "write", WRITE },
-	{ "writeln", WRITELN },
-	{ "begin", BEGIN },
-	{ "end", END },
-	{ "", 0 }//просто признак конца массива
+  { "if", IF },
+  { "then", THEN },
+  { "else", ELSE },
+  { "while", WHILE },
+  { "do", DO },
+  { "for", FOR },
+  { "to", TO },
+  { "downto", DOWNTO },
+  { ":=", ASSIGNMENT },
+  { "read", READ},
+  { "write", WRITE },
+  { "writeln", WRITELN },
+  { "begin", BEGIN },
+  { "end", END },
+  { "", 0 }//prosto priznak konca massiva
 };
 
 char token[80];
 char token_type, tok;
 
-///включает вывод отладочной информации
+///vkljuchaet vyvod otladochnoj informacii
 bool testing = true ;
 
 
-char *prog; /* содержит выражение для анализа */
-//jmp_buf e_buf; /* содержит среду для longjmp() */
+char *prog; /* soderzhit vyrazhenie dlja analiza */
+//jmp_buf e_buf; /* soderzhit sredu dlja longjmp() */
 
-/* Возвращает 1, если "с" пробел или табуляция */
+/* Vozvrawaet 1, esli "s" probel ili tabuljacija */
 bool iswhite(char c)
 {
   if(c == ' ' || c == '\t' || c == '\n' || c == '\r')
@@ -117,22 +117,22 @@ bool iswhite(char c)
      return 0;
 }
 
-void pres(char  msg, char * coment="Тестовый Комент:")
+void pres(char  msg, char * coment="Testovyj Koment:")
 {
    if (testing)
       cout<<coment<<" "<<msg<<endl;
 };
-void pres(char * msg, char * coment="Тестовый Комент:")
+void pres(char * msg, char * coment="Testovyj Koment:")
 {
    if (testing)
       cout<<coment<<" "<<msg<<endl;
 };
-void pres(int msg, char * coment="Тестовый Комент:")
+void pres(int msg, char * coment="Testovyj Koment:")
 {
    if (testing)
       cout<<coment<<" "<<msg<<endl;
 };
-void pres(float msg, char * coment="Тестовый Комент:")
+void pres(float msg, char * coment="Testovyj Koment:")
 {
    if (testing)
       cout<<coment<<" "<<msg<<endl;
@@ -140,80 +140,80 @@ void pres(float msg, char * coment="Тестовый Комент:")
 
 
 /**@function serror
-Выводит сообещние об ошибки. Сделана для увлечения абстракции и гибкости*/
+Vyvodit soobewnie ob oshibki. Sdelana dlja uvlechenija abstrakcii i gibkosti*/
 void serror( char* error )
 {
-	//пока всё незамысловато, но позже будет хитрее.
-	std::cout<<error<<std::endl;
+  //poka vsjo nezamyslovato, no pozzhe budet hitree.
+  std::cout<<error<<std::endl;
 }
 
 
 /**@function putback
-возвращает функцию во входной поток, точнее чтение get_token() будет начато с начало
-(не пойдет на слудущую лексему)*/
+vozvrawaet funkciju vo vhodnoj potok, tochnee chtenie get_token() budet nachato s nachalo
+(ne pojdet na sluduwuju leksemu)*/
 void putback()
 {
-	char *t;
+  char *t;
 
-	t = token;
-	for( ; *t; t++ ) prog--;
+  t = token;
+  for( ; *t; t++ ) prog--;
 
-	if ( token_type == STRING )
-	{
-	  prog--;
-	  prog--;
-	  //При считывании строк в token попадает строка без кавычек.
-	}
+  if ( token_type == STRING )
+  {
+    prog--;
+    prog--;
+    //Pri schityvanii strok v token popadaet stroka bez kavychek.
+  }
 }
-/* Возвращает "истину", если "c" разделитель */
+/* Vozvrawaet "istinu", esli "c" razdelitel' */
 bool isdelim(char c)
 {
-	if(strchr(".,:;()[]+-*/<>=\r\n\t ", c) || c == 0)
-		return 1;
-	else
-		return 0;
+  if(strchr(".,:;()[]+-*/<>=\r\n\t ", c) || c == 0)
+    return 1;
+  else
+    return 0;
 }
 
-/* Возвращает "истину", если "c" является чем-то из { a..z, A..Z, 0..9, "_" } */
+/* Vozvrawaet "istinu", esli "c" javljaetsja chem-to iz { a..z, A..Z, 0..9, "_" } */
 bool is_good_name (char c)
 {
     return (isalpha(c) or isdigit(c) or c == '_' );
 }
 
-/* Поиск соответствия внутреннего формата для
-   текущей лексемы в таблицах лексем.
+/* Poisk sootvetstvija vnutrennego formata dlja
+   tekuwej leksemy v tablicah leksem.
 */
 char look_up(char *s, char *token_type)
 {
   register int i;
   char *p;
 
-  /* преобразование к нижнему регистру */
+  /* preobrazovanie k nizhnemu registru */
   p = s;
   while(*p) { *p = tolower(*p); p++; }
 
-  //Поиск лексемы среди служебных слов
+  //Poisk leksemy sredi sluzhebnyh slov
   for( i = 0; *SYSTEM_table[i].command; i++ )
     if( !strcmp(SYSTEM_table[i].command, s) )
     {
-        *token_type = SYSTEM; //Тип "СЛЕЖЕБНОЕ СЛОВО"
+        *token_type = SYSTEM; //Tip "SLEZhEBNOE SLOVO"
         return SYSTEM_table[i].tok;
     }
 
-  //Поиск лексемы среди операторов
+  //Poisk leksemy sredi operatorov
   for( i = 0; *OPERATORS_table[i].command; i++ )
     if( !strcmp( OPERATORS_table[i].command, s ) )
     {
-        *token_type = OPERATOR; //Тип "ОПЕРАТОР"
+        *token_type = OPERATOR; //Tip "OPERATOR"
         return OPERATORS_table[i].tok;
     }
   *token_type = 0;
-  return 0; /* нераспознанная команда */
+  return 0; /* neraspoznannaja komanda */
 }
 
 
-//Функция, возвращающая имя самой лексемы или ее типа по значению
-//Необходима только для тестирования get_token()!!!
+//Funkcija, vozvrawajuwaja imja samoj leksemy ili ee tipa po znacheniju
+//Neobhodima tol'ko dlja testirovanija get_token()!!!
 char * typeToName(int param)
 {
   switch (param)
