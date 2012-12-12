@@ -15,10 +15,10 @@ using std::endl;
 
 
 /**@struct array
- Структура для переменных типа INTEGER/REAL
-int type - Тип идентификатора
-float value - Значение идентификатора
-bool isConst - Константа/переменная
+ РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РїРµСЂРµРјРµРЅРЅС‹С… С‚РёРїР° INTEGER/REAL
+int type - РўРёРї РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
+float value - Р—РЅР°С‡РµРЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
+bool isConst - РљРѕРЅСЃС‚Р°РЅС‚Р°/РїРµСЂРµРјРµРЅРЅР°СЏ
 */
 struct Var
 {
@@ -28,12 +28,12 @@ struct Var
 };
 
 /**@struct array
-Структура для массивов типа INTEGER/REAL
-int type - Тип массива
-bool isBig - Многомерный/одномерный массив
-int from - нижняя граница массива
-int to - верхняя граница массива
-float *el - элементы массива
+РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РјР°СЃСЃРёРІРѕРІ С‚РёРїР° INTEGER/REAL
+int type - РўРёРї РјР°СЃСЃРёРІР°
+bool isBig - РњРЅРѕРіРѕРјРµСЂРЅС‹Р№/РѕРґРЅРѕРјРµСЂРЅС‹Р№ РјР°СЃСЃРёРІ
+int from - РЅРёР¶РЅСЏСЏ РіСЂР°РЅРёС†Р° РјР°СЃСЃРёРІР°
+int to - РІРµСЂС…РЅСЏСЏ РіСЂР°РЅРёС†Р° РјР°СЃСЃРёРІР°
+float *el - СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР°
 */
 struct Array
 {
@@ -43,45 +43,45 @@ struct Array
     int to;
     int from2;
     int to2;
-    float *el; //указатель на 1 элемент массива
+    float *el; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° 1 СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР°
     float **el2;
 };
 
-//Для хранения переменных/констант и массивов используем
-//ассоциативные массивы (карты/контейнеры)
-///Карта для идентификаторов типа INTEGER/REAL
+//Р”Р»СЏ С…СЂР°РЅРµРЅРёСЏ РїРµСЂРµРјРµРЅРЅС‹С…/РєРѕРЅСЃС‚Р°РЅС‚ Рё РјР°СЃСЃРёРІРѕРІ РёСЃРїРѕР»СЊР·СѓРµРј
+//Р°СЃСЃРѕС†РёР°С‚РёРІРЅС‹Рµ РјР°СЃСЃРёРІС‹ (РєР°СЂС‚С‹/РєРѕРЅС‚РµР№РЅРµСЂС‹)
+///РљР°СЂС‚Р° РґР»СЏ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ С‚РёРїР° INTEGER/REAL
 map <string, Var> Vars;
-///Карта для массивов типа INTEGER/REAL
+///РљР°СЂС‚Р° РґР»СЏ РјР°СЃСЃРёРІРѕРІ С‚РёРїР° INTEGER/REAL
 map <string, Array> Arrays;
 
-///Итераторы для работы с картами в цикле
+///РС‚РµСЂР°С‚РѕСЂС‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєР°СЂС‚Р°РјРё РІ С†РёРєР»Рµ
 map <string, Var>::iterator start = Vars.begin ();
 map <string, Array>::iterator start2 = Arrays.begin ();
 
-//Временные объекты наших структур удалил т.к. используем локальные
+//Р’СЂРµРјРµРЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹ РЅР°С€РёС… СЃС‚СЂСѓРєС‚СѓСЂ СѓРґР°Р»РёР» С‚.Рє. РёСЃРїРѕР»СЊР·СѓРµРј Р»РѕРєР°Р»СЊРЅС‹Рµ
 //Var temp;
 //Array temp2;
 
 /**@fuction AddVar
-Функция добавления переменной/константы в карту
+Р¤СѓРЅРєС†РёСЏ РґРѕР±Р°РІР»РµРЅРёСЏ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹ РІ РєР°СЂС‚Сѓ
 
-name - Имя переменной/константы
-type - Тип переменной/константы
-value - Значение переменой/константы
-constant - Характеристика (true - константа, false - переменная)
+name - РРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
+type - РўРёРї РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
+value - Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
+constant - РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° (true - РєРѕРЅСЃС‚Р°РЅС‚Р°, false - РїРµСЂРµРјРµРЅРЅР°СЏ)
 */
 bool AddVar (char* name, int type, float value, bool constant)
 {
    Var temp;
-   if (Vars.count(name) == 0) //Если в карте нет переменной с таким именем
+   if (Vars.count(name) == 0) //Р•СЃР»Рё РІ РєР°СЂС‚Рµ РЅРµС‚ РїРµСЂРµРјРµРЅРЅРѕР№ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
    {
        temp.isConst = constant;
        temp.type = type;
-       temp.value = value; //Приводим к типу INTEGER
-       Vars[name] = temp;   //Кидаем в карту новую пееменную/константу
+       temp.value = value; //РџСЂРёРІРѕРґРёРј Рє С‚РёРїСѓ INTEGER
+       Vars[name] = temp;   //РљРёРґР°РµРј РІ РєР°СЂС‚Сѓ РЅРѕРІСѓСЋ РїРµРµРјРµРЅРЅСѓСЋ/РєРѕРЅСЃС‚Р°РЅС‚Сѓ
        return 1;
    }
-   else //Иначе сообщаем, что в карте есть переменная/константа с таким именем
+   else //РРЅР°С‡Рµ СЃРѕРѕР±С‰Р°РµРј, С‡С‚Рѕ РІ РєР°СЂС‚Рµ РµСЃС‚СЊ РїРµСЂРµРјРµРЅРЅР°СЏ/РєРѕРЅСЃС‚Р°РЅС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
        {
            printf ("The variable/constant with this name is already exists");
            return 0;
@@ -89,20 +89,20 @@ bool AddVar (char* name, int type, float value, bool constant)
 }
 
 /**@fuction GetTypeVar
-Функция получения типа переменной/константы
+Р¤СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РёРїР° РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
 
-name - Имя переменной/константы
-return - Тип переменной/константы
+name - РРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
+return - РўРёРї РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
 */
 int GetTypeVar (const char* name)
 {
-    if (Vars.count(name) != 0) //Находим переменную/константу в карте
+    if (Vars.count(name) != 0) //РќР°С…РѕРґРёРј РїРµСЂРµРјРµРЅРЅСѓСЋ/РєРѕРЅСЃС‚Р°РЅС‚Сѓ РІ РєР°СЂС‚Рµ
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.type;  //Возвращаем тип
+        //start->second = Vars[name]; //РЎС‚Р°РІРёРј РёС‚РµСЂР°С‚РѕСЂ РЅР° РЅР°С€Сѓ РЅР°С…РѕРґРєСѓ
+        //return start->second.type;  //Р’РѕР·РІСЂР°С‰Р°РµРј С‚РёРї
         return Vars[name].type;
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //РРЅР°С‡Рµ РѕРїРѕРІРµС‰Р°РµРј Рѕ С‚РѕРј, С‡С‚Рѕ РЅРµ РЅР°С€Р»Рё РЅРёС‡РµРіРѕ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
     {
         printf ("The variable/constant with this name isn't exists");
         return 0;
@@ -110,79 +110,79 @@ int GetTypeVar (const char* name)
 }
 
 /**@fuction getValue
-Функция получения значения переменной/константы
+Р¤СѓРЅРєС†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
 
-name - Имя переменной/константы
-return - Значение переменной/константы
+name - РРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
+return - Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
 */
 float getValue (const char* name)
 {
-    if (Vars.count(name) != 0) //Находим переменную/константу в карте
+    if (Vars.count(name) != 0) //РќР°С…РѕРґРёРј РїРµСЂРµРјРµРЅРЅСѓСЋ/РєРѕРЅСЃС‚Р°РЅС‚Сѓ РІ РєР°СЂС‚Рµ
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.value;  //Возвращаем значение
+        //start->second = Vars[name]; //РЎС‚Р°РІРёРј РёС‚РµСЂР°С‚РѕСЂ РЅР° РЅР°С€Сѓ РЅР°С…РѕРґРєСѓ
+        //return start->second.value;  //Р’РѕР·РІСЂР°С‰Р°РµРј Р·РЅР°С‡РµРЅРёРµ
         return Vars[name].value;
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //РРЅР°С‡Рµ РѕРїРѕРІРµС‰Р°РµРј Рѕ С‚РѕРј, С‡С‚Рѕ РЅРµ РЅР°С€Р»Рё РЅРёС‡РµРіРѕ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
     {
         printf ("The variable/constant with this name isn't exists");
         return -1.0;
     }
 }
- ///Получить значение одномерного массива
+ ///РџРѕР»СѓС‡РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РѕРґРЅРѕРјРµСЂРЅРѕРіРѕ РјР°СЃСЃРёРІР°
 float getValue (const char* name, int index)
 {
 
-    if (Arrays.count(name) != 0) //Находим переменную/константу в карте
+    if (Arrays.count(name) != 0) //РќР°С…РѕРґРёРј РїРµСЂРµРјРµРЅРЅСѓСЋ/РєРѕРЅСЃС‚Р°РЅС‚Сѓ РІ РєР°СЂС‚Рµ
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.value;  //Возвращаем значение
+        //start->second = Vars[name]; //РЎС‚Р°РІРёРј РёС‚РµСЂР°С‚РѕСЂ РЅР° РЅР°С€Сѓ РЅР°С…РѕРґРєСѓ
+        //return start->second.value;  //Р’РѕР·РІСЂР°С‰Р°РµРј Р·РЅР°С‡РµРЅРёРµ
         if (index > Arrays[name].to or index<Arrays[name].from)
-          throw "Индекс массива, выходит за его пределы";
+          throw "РРЅРґРµРєСЃ РјР°СЃСЃРёРІР°, РІС‹С…РѕРґРёС‚ Р·Р° РµРіРѕ РїСЂРµРґРµР»С‹";
         return Arrays[name].el[index-Arrays[name].from];
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //РРЅР°С‡Рµ РѕРїРѕРІРµС‰Р°РµРј Рѕ С‚РѕРј, С‡С‚Рѕ РЅРµ РЅР°С€Р»Рё РЅРёС‡РµРіРѕ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
     {
         printf ("The variable/constant with this name isn't exists");
         return -1.0;
     }
 }
 
- ///Получить значение двумерного массива
+ ///РџРѕР»СѓС‡РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РґРІСѓРјРµСЂРЅРѕРіРѕ РјР°СЃСЃРёРІР°
 float getValue (const char* name, int index, int index2)
 {
 
-    if (Arrays.count(name) != 0) //Находим переменную/константу в карте
+    if (Arrays.count(name) != 0) //РќР°С…РѕРґРёРј РїРµСЂРµРјРµРЅРЅСѓСЋ/РєРѕРЅСЃС‚Р°РЅС‚Сѓ РІ РєР°СЂС‚Рµ
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.value;  //Возвращаем значение
+        //start->second = Vars[name]; //РЎС‚Р°РІРёРј РёС‚РµСЂР°С‚РѕСЂ РЅР° РЅР°С€Сѓ РЅР°С…РѕРґРєСѓ
+        //return start->second.value;  //Р’РѕР·РІСЂР°С‰Р°РµРј Р·РЅР°С‡РµРЅРёРµ
         if (index > Arrays[name].to or index<Arrays[name].from or index2 > Arrays[name].to2 or index2<Arrays[name].from2)
-          throw "Индекс массива, выходит за его пределы";
+          throw "РРЅРґРµРєСЃ РјР°СЃСЃРёРІР°, РІС‹С…РѕРґРёС‚ Р·Р° РµРіРѕ РїСЂРµРґРµР»С‹";
         return Arrays[name].el2[index-Arrays[name].from][index2-Arrays[name].from2];
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //РРЅР°С‡Рµ РѕРїРѕРІРµС‰Р°РµРј Рѕ С‚РѕРј, С‡С‚Рѕ РЅРµ РЅР°С€Р»Рё РЅРёС‡РµРіРѕ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
     {
         printf ("The variable/constant with this name isn't exists");
-        throw "Неверное имя массива";
+        throw "РќРµРІРµСЂРЅРѕРµ РёРјСЏ РјР°СЃСЃРёРІР°";
     }
 }
 
 /**@fuction isConst
-Функция проверки на константу
+Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР° РєРѕРЅСЃС‚Р°РЅС‚Сѓ
 
-name - Имя переменной/константы
-return - Характеристика (true - константа, false - переменная)
+name - РРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№/РєРѕРЅСЃС‚Р°РЅС‚С‹
+return - РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєР° (true - РєРѕРЅСЃС‚Р°РЅС‚Р°, false - РїРµСЂРµРјРµРЅРЅР°СЏ)
 */
 bool isConst (const char* name)
 {
-    if (Vars.count(name) != 0) //Находим переменную/константу в карте
+    if (Vars.count(name) != 0) //РќР°С…РѕРґРёРј РїРµСЂРµРјРµРЅРЅСѓСЋ/РєРѕРЅСЃС‚Р°РЅС‚Сѓ РІ РєР°СЂС‚Рµ
     {
-        //start->second = Vars[name]; //Ставим итератор на нашу находку
-        //return start->second.isConst; //Возвращаем характеристику (true - константа, false - переменная)
+        //start->second = Vars[name]; //РЎС‚Р°РІРёРј РёС‚РµСЂР°С‚РѕСЂ РЅР° РЅР°С€Сѓ РЅР°С…РѕРґРєСѓ
+        //return start->second.isConst; //Р’РѕР·РІСЂР°С‰Р°РµРј С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєСѓ (true - РєРѕРЅСЃС‚Р°РЅС‚Р°, false - РїРµСЂРµРјРµРЅРЅР°СЏ)
 
         return Vars[name].isConst;
     }
-    else //Иначе оповещаем о том, что не нашли ничего с таким именем
+    else //РРЅР°С‡Рµ РѕРїРѕРІРµС‰Р°РµРј Рѕ С‚РѕРј, С‡С‚Рѕ РЅРµ РЅР°С€Р»Рё РЅРёС‡РµРіРѕ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
     {
         printf ("The variable/constant with this name isn't exists");
         return 0;
@@ -190,7 +190,7 @@ bool isConst (const char* name)
 }
 
 /**@fuction fuction
-Функция вывода содержания всех карт на экран (для теста)*/
+Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° СЃРѕРґРµСЂР¶Р°РЅРёСЏ РІСЃРµС… РєР°СЂС‚ РЅР° СЌРєСЂР°РЅ (РґР»СЏ С‚РµСЃС‚Р°)*/
 void printVars ()
 {
     printf ("Name\t\tValue\t\tType\n\n");
@@ -203,7 +203,7 @@ void printVars ()
             printf ("%s\t\t%5.3f\t\t%d - %s\n", start->first.c_str(), getValue(start->first.c_str()), GetTypeVar (start->first.c_str() ), typeToName(GetTypeVar (start->first.c_str() )) );
 
 }
-/**выводит содержимое массивов, для отладки*/
+/**РІС‹РІРѕРґРёС‚ СЃРѕРґРµСЂР¶РёРјРѕРµ РјР°СЃСЃРёРІРѕРІ, РґР»СЏ РѕС‚Р»Р°РґРєРё*/
 void printArrays()
 {
     printf ("Name\t\tDimension\t\tType\n\n");
@@ -212,13 +212,13 @@ void printArrays()
       {
           if (start2->second.type == INTEGER)
           {
-             cout<<start2->first.c_str()<<"\t\tОдномерный\t\tINTEGER\n";
+             cout<<start2->first.c_str()<<"\t\tРћРґРЅРѕРјРµСЂРЅС‹Р№\t\tINTEGER\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
                 cout<<"|"<<(int)Arrays[start2->first].el[i]<<"|";
           }
           else
           {
-             cout<<start2->first.c_str()<<"\t\tОдномерный\t\tREAL\n";
+             cout<<start2->first.c_str()<<"\t\tРћРґРЅРѕРјРµСЂРЅС‹Р№\t\tREAL\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
                 cout<<"|"<<Arrays[start2->first].el[i]<<"|";
           }
@@ -227,7 +227,7 @@ void printArrays()
        {
           if (start2->second.type == INTEGER)
           {
-             cout<<start2->first.c_str()<<"\t\tДвумерный\t\tINTEGER\n";
+             cout<<start2->first.c_str()<<"\t\tР”РІСѓРјРµСЂРЅС‹Р№\t\tINTEGER\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
              {
                  for (int j = 0; j < Arrays[start2->first].to2 - Arrays[start2->first].from2; j++)
@@ -237,7 +237,7 @@ void printArrays()
           }
           else
           {
-             cout<<start2->first.c_str()<<"\t\tДвумерный\t\tREAL\n\n";
+             cout<<start2->first.c_str()<<"\t\tР”РІСѓРјРµСЂРЅС‹Р№\t\tREAL\n\n";
              for (int i = 0; i < Arrays[start2->first].to - Arrays[start2->first].from; i++)
              {
                  for (int j = 0; j < Arrays[start2->first].to2 - Arrays[start2->first].from2; j++)
@@ -264,22 +264,22 @@ void printArrays()
         cout<<endl;
     }*/
 
-/*Олег, тут надо проходить итератором по всем именам, потом используя имя и помня о isBig выводить содержимое*/
+/*РћР»РµРі, С‚СѓС‚ РЅР°РґРѕ РїСЂРѕС…РѕРґРёС‚СЊ РёС‚РµСЂР°С‚РѕСЂРѕРј РїРѕ РІСЃРµРј РёРјРµРЅР°Рј, РїРѕС‚РѕРј РёСЃРїРѕР»СЊР·СѓСЏ РёРјСЏ Рё РїРѕРјРЅСЏ Рѕ isBig РІС‹РІРѕРґРёС‚СЊ СЃРѕРґРµСЂР¶РёРјРѕРµ*/
 
 }
 
 
 /**@function ReadFromTo
-чтение Нижней границы массива (любой)*/
+С‡С‚РµРЅРёРµ РќРёР¶РЅРµР№ РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР° (Р»СЋР±РѕР№)*/
 int ReadFromTo ()
 {
-    get_token(); //Считываем границу массива
-    ///если границ - число
+    get_token(); //РЎС‡РёС‚С‹РІР°РµРј РіСЂР°РЅРёС†Сѓ РјР°СЃСЃРёРІР°
+    ///РµСЃР»Рё РіСЂР°РЅРёС† - С‡РёСЃР»Рѕ
 	if (token_type == INTEGER)
     {
         if (atoi(token) < 0)
         {
-            printf ("Граница массива должна быть >= 0\n");
+            printf ("Р“СЂР°РЅРёС†Р° РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ >= 0\n");
             return -1;
         }
 
@@ -290,26 +290,26 @@ int ReadFromTo ()
         }
         //temp2.from = atoi(token);
     }
-    ///если граница - переменнвя
+    ///РµСЃР»Рё РіСЂР°РЅРёС†Р° - РїРµСЂРµРјРµРЅРЅРІСЏ
     if (token_type == VARIABLE)
     {
 
         if (GetTypeVar (token) != INTEGER)
         {
-            printf ("Граница массива должна быть типа INTEGER\n");
+            printf ("Р“СЂР°РЅРёС†Р° РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С‚РёРїР° INTEGER\n");
             return -1;
         }
 
 
         if (isConst (token) != true)
         {
-            printf ("Переменная не может быть границей массива\n");
+            printf ("РџРµСЂРµРјРµРЅРЅР°СЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РіСЂР°РЅРёС†РµР№ РјР°СЃСЃРёРІР°\n");
             return -1;
         }
 
         if (getValue (token) < 0)
         {
-            printf ("Граница массива должна быть >= 0\n");
+            printf ("Р“СЂР°РЅРёС†Р° РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ >= 0\n");
             return -1;
         }
             //std::cout<<5;//getValue(token);
@@ -324,7 +324,7 @@ int ReadFromTo ()
 }
 
 
-/**@function AddArray добавляет переменные в карту переменных
+/**@function AddArray РґРѕР±Р°РІР»СЏРµС‚ РїРµСЂРµРјРµРЅРЅС‹Рµ РІ РєР°СЂС‚Сѓ РїРµСЂРµРјРµРЅРЅС‹С…
 */
 int AddArray (const char* name)
 {
@@ -332,9 +332,9 @@ int AddArray (const char* name)
    int from, to, from2, to2;
    Array temp;
 
-   temp.isBig = false;// одномерный массив, по умолчанию
+   temp.isBig = false;// РѕРґРЅРѕРјРµСЂРЅС‹Р№ РјР°СЃСЃРёРІ, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
-    get_token();  //Считываем служебное слово "array"
+    get_token();  //РЎС‡РёС‚С‹РІР°РµРј СЃР»СѓР¶РµР±РЅРѕРµ СЃР»РѕРІРѕ "array"
     pres(int(tok));
     if ( tok != ARRAY )
 	{
@@ -342,7 +342,7 @@ int AddArray (const char* name)
 		return ERROR;
 	}
 
-	get_token(); //Считываем "["
+	get_token(); //РЎС‡РёС‚С‹РІР°РµРј "["
    pres(token);
 	if ( token[0] != '[' )
 	{
@@ -350,13 +350,13 @@ int AddArray (const char* name)
 		return ERROR;
 	}
 
-	from = ReadFromTo (); //Считывание нижней границы массива
+	from = ReadFromTo (); //РЎС‡РёС‚С‹РІР°РЅРёРµ РЅРёР¶РЅРµР№ РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР°
 	pres(from);
 	if ( from == -1 )
 		return ERROR;
 
 
-   get_token(); //Считываем разделители границ массива ".."
+   get_token(); //РЎС‡РёС‚С‹РІР°РµРј СЂР°Р·РґРµР»РёС‚РµР»Рё РіСЂР°РЅРёС† РјР°СЃСЃРёРІР° ".."
 	pres(token);
 	if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
 	{
@@ -372,29 +372,29 @@ int AddArray (const char* name)
 		return ERROR;
 	}
 
-	to = ReadFromTo (); //Считывание верхней границы массива
+	to = ReadFromTo (); //РЎС‡РёС‚С‹РІР°РЅРёРµ РІРµСЂС…РЅРµР№ РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР°
 	pres(to);
 	if ( to == -1 )
 		return ERROR;
 
     if (to <= from)
     {
-        printf("Верхняя граница массива должна быть больше нижней");
+        printf("Р’РµСЂС…РЅСЏСЏ РіСЂР°РЅРёС†Р° РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РЅРёР¶РЅРµР№");
         return ERROR;
     }
 
     get_token();
     pres(token,"token");
-    //если массив двумерный
+    //РµСЃР»Рё РјР°СЃСЃРёРІ РґРІСѓРјРµСЂРЅС‹Р№
 	if( token_type == DELIMITER && token[0] == ',' )
 	{
 
-        from2 = ReadFromTo (); //Считывание нижней границы массива
+        from2 = ReadFromTo (); //РЎС‡РёС‚С‹РІР°РЅРёРµ РЅРёР¶РЅРµР№ РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР°
         pres(from2);
         if ( from2 == -1 )
             return ERROR;
 
-        get_token(); //Считываем разделители границ массива ".."
+        get_token(); //РЎС‡РёС‚С‹РІР°РµРј СЂР°Р·РґРµР»РёС‚РµР»Рё РіСЂР°РЅРёС† РјР°СЃСЃРёРІР° ".."
         pres(token);
         if ( ! ((token_type == DELIMITER) && (token[0] == '.' ) ) )
         {
@@ -410,7 +410,7 @@ int AddArray (const char* name)
             return ERROR;
         }
 
-        to2 = ReadFromTo (); //Считывание верхней границы массива
+        to2 = ReadFromTo (); //РЎС‡РёС‚С‹РІР°РЅРёРµ РІРµСЂС…РЅРµР№ РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР°
     	pres(to2);
     	//std::cout<<to2<<endl;
         if ( to2 == -1 )
@@ -418,10 +418,10 @@ int AddArray (const char* name)
 
         if (to2 <= from2)
         {
-            printf("Верхняя граница массива должна быть больше нижней\n");
+            printf("Р’РµСЂС…РЅСЏСЏ РіСЂР°РЅРёС†Р° РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РЅРёР¶РЅРµР№\n");
             return ERROR;
         }
-        //наше гениальное выделение памяти :)
+        //РЅР°С€Рµ РіРµРЅРёР°Р»СЊРЅРѕРµ РІС‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё :)
         temp.to2 = to2;
         temp.from2 = from2;
         temp.isBig = true;
@@ -429,18 +429,18 @@ int AddArray (const char* name)
         temp.from = from;
         temp.el = NULL;
 
-        temp.el2 = new float* [to-from]; //Выделение памяти под строки
+        temp.el2 = new float* [to-from]; //Р’С‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё РїРѕРґ СЃС‚СЂРѕРєРё
         for (int i=0; i<to-from; i++)
         {
-            temp.el2[i] = new float [to2-from2]; //Выделение памяти под столбцы
+            temp.el2[i] = new float [to2-from2]; //Р’С‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё РїРѕРґ СЃС‚РѕР»Р±С†С‹
 
-            if (testing) // если отладка, то заполняем индексами, иначе нулями
+            if (testing) // РµСЃР»Рё РѕС‚Р»Р°РґРєР°, С‚Рѕ Р·Р°РїРѕР»РЅСЏРµРј РёРЅРґРµРєСЃР°РјРё, РёРЅР°С‡Рµ РЅСѓР»СЏРјРё
                 for (int j=0; j<to2-from2;j++)
                 {
                     temp.el2[i][j]=(float)j;
                     cout<<temp.el2[i][j];
                 }
-                    //тут было temp.el[j]=j; - найди, 2 отличия :)
+                    //С‚СѓС‚ Р±С‹Р»Рѕ temp.el[j]=j; - РЅР°Р№РґРё, 2 РѕС‚Р»РёС‡РёСЏ :)
             else
                 for (int j=0; j<to2-from2;j++)
                 {
@@ -448,10 +448,10 @@ int AddArray (const char* name)
                     cout<<temp.el2[i][j];
                 }
 
-             /**   // объявление двумерного динамического массива на 10 элементов:
-float **ptrarray = new float* [2]; // две строки в массиве
+             /**   // РѕР±СЉСЏРІР»РµРЅРёРµ РґРІСѓРјРµСЂРЅРѕРіРѕ РґРёРЅР°РјРёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР° РЅР° 10 СЌР»РµРјРµРЅС‚РѕРІ:
+float **ptrarray = new float* [2]; // РґРІРµ СЃС‚СЂРѕРєРё РІ РјР°СЃСЃРёРІРµ
     for (int count = 0; count < 2; count++)
-        ptrarray[count] = new float [5]; // и пять столбцов*/
+        ptrarray[count] = new float [5]; // Рё РїСЏС‚СЊ СЃС‚РѕР»Р±С†РѕРІ*/
 
 //                memset(temp.el2[i], 0, to2-from2);
             cout<<endl;
@@ -462,7 +462,7 @@ float **ptrarray = new float* [2]; // две строки в массиве
         //Arrays[name] = temp;
 
 
-        get_token(); //Считываем "["
+        get_token(); //РЎС‡РёС‚С‹РІР°РµРј "["
         pres(token);
     }
 
@@ -494,13 +494,13 @@ float **ptrarray = new float* [2]; // две строки в массиве
 			return ERROR;
 		}
 
-       //САМО  выделение!
+       //РЎРђРњРћ  РІС‹РґРµР»РµРЅРёРµ!
        if (!temp.isBig)
        {
            temp.from = from;
            temp.to = to;
            temp.el = new float [to-from];
-           //если отладка, то заполняем индексами, иначе нулями
+           //РµСЃР»Рё РѕС‚Р»Р°РґРєР°, С‚Рѕ Р·Р°РїРѕР»РЅСЏРµРј РёРЅРґРµРєСЃР°РјРё, РёРЅР°С‡Рµ РЅСѓР»СЏРјРё
            if (testing)
                for (int i=0;i<to-from;i++)
                        temp.el[i]=i;

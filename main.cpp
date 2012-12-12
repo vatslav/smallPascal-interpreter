@@ -9,6 +9,7 @@ using namespace std;
 int main()
 {
     setlocale (LC_ALL,"RUS");
+    //asdasd
    /* prog = "Program Test\n"
     "c:=3 "
     "const a=5+2+g, b=3;\n"
@@ -18,8 +19,8 @@ int main()
     "Begin\n"
     "    write (a);\n"
     "    read (k);\n"
-    "{ Êîììåíòàðèé     \n"
-    "    Ïðîäîëæåíèå  }\n"
+    "{ ÐšÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¹     \n"
+    "    ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶ÐµÐ½Ð¸Ðµ  }\n"
     "    if a>=b then i:=a+1 else j:=b+1\n"
     "    for i:=1 to a do i:=i*j;\n"
     "    while (i>0) i:= i - 2\n"
@@ -29,7 +30,7 @@ int main()
     while(1)
 	{
 	  int result = get_token();
-	  ///åñëkè îøèáêè èëè êîíåö ïðîãðàììû.
+	  ///ÐµÑÐ»kÐ¸ Ð¾ÑˆÐ¸Ð±ÐºÐ¸ Ð¸Ð»Ð¸ ÐºÐ¾Ð½ÐµÑ† Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹.
 		if (result==9 || result==18)
 		{
 		  //int a;
@@ -39,12 +40,12 @@ int main()
 		printf("%s \t\t%d - %s \t\t%d - %s", token, token_type,typeToName(token_type), tok,typeToName(tok) );
 		getchar();
 	}*/
-	AddVar ("_s",INTEGER,0,true);
-	AddVar ("s",INTEGER,5,true);
+	AddVar ("x",INTEGER,10,true);
+	AddVar ("s",INTEGER,20.5,true);
 
 
-   AddVar ("se3",REAL,112.75,false);
-	AddVar ("awf3",REAL,0.53,false);
+   AddVar ("y",REAL,20.1,false);
+	AddVar ("z",REAL,1.5,false);
 
 /*
     prog = "array [_s..s,0..10] of integer";
@@ -68,12 +69,15 @@ int main()
 //getchar();*/
 bool ok, result;
 //strcpy( prog, "2+2.98" );
-prog = "5.5+awf3";
+//prog = "z*(2+3)";
+prog = "2 > 3";
 //get_token ();
-result = get_exp_abstract( &Vars["se3"]);
+//get_exp_abstract
+//result = get_exp_abstract( &Vars["z"]);
+result = get_logic_exp (&ok);
 printf("ok = %d, result = %d\n", ok, result );
 	printf("prog -> %s\n", prog );
-    cout<<Vars["se3"].value;
+     //cout<<"var z="<<Vars["z"].value;
 
     return 0;
 }
