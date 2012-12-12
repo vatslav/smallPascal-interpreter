@@ -6,36 +6,36 @@
 #include "Vars&Arrays.h"
 
 /*
-for identifikator := <vyrazhenie inicializacii> to|downto <vyrazhenie konechnoe > do operator
+for идентификатор := <выражение инициализации> to|downto <выражение конечное > do оператор
 
-"identifikatorom"  mozhet byt' tol'ko identifikator prostoj peremennoj: tol'ko tipa INTEGER
- Jelement massiva v kachestve schjotchika cikla nedopustim.
+"идентификатором"  может быть только идентификатор простой переменной: только типа INTEGER
+ Элемент массива в качестве счётчика цикла недопустим.
 */
 
 /*
-Vypolnit' operator for.
-Na moment vyzova tekuwej leksemoj dolzhna byt' for.
-Posle okonchanija - tekuwej leksemoj budet poslednjaja leksema operatora.
+Выполнить оператор for.
+На момент вызова текущей лексемой должна быть for.
+После окончания - текущей лексемой будет последняя лексема оператора.
 */
 
 bool ExecFor()
 {
 	get_token();
-	//pereshli k schjotchiku.
+	//перешли к счётчику.
 	if( token_type != VARIABLE )
 	{
 		serror("Expected counter.");
 		return false;
 	}
-	//peremennnaja integer?
-	//t.k. tekuweaja leksema jeto sugub imja peremennoj, to nam vpolne hvatit vezde prosto token
-	if ( GetTypeVar ( token ) != INTEGER )// proverka-celoe li chislo?
+	//переменнная integer?
+	//т.к. текущеая лексема это сугуб имя переменной, то нам вполне хватит везде просто token
+	if ( GetTypeVar ( token ) != INTEGER )// проверка-целое ли число?
 	{
 		serror("Only INTEGER variable can be a counter in FOR");
 		return false;
 	}
 
-	//int* counter =  getIntegerVariable(token);//schetchik mozhet okazat'sja pustym
+	//int* counter =  getIntegerVariable(token);//счетчик может оказаться пустым
 	int counter = (int)getValue(token);
 	if ( counter == 0 )
 	{
@@ -43,24 +43,24 @@ bool ExecFor()
 		return false;
 	}
 	get_token();
-	if( tok != ASSIGNMENT )//ne ukazan znak prisvaivanija
+	if( tok != ASSIGNMENT )//не указан знак присваивания
 	{
 		serror("Expected ASSIGNMENT ':='");
 		return false;
 	}
 	bool ok;
-	*counter = get_exp_as_integer( &ok );// chto ona delaet?
+	*counter = get_exp_as_integer( &ok );// что она делает?
 	if(!ok) return false;
 
 	get_token();
-	if ( token_type!= TO && token_type != DOWNTO )//ne nashli TO ili DOWNTO
+	if ( token_type!= TO && token_type != DOWNTO )//не нашли TO или DOWNTO
 	{
 		serror("Expected TO or DOWNTO");
 		return false;
 	}
-	bool up = ( token_type == TO ) ? true : false;//up = true - schjotchik uvelichivaetsja ( TO ), inache umen'shaetsja ( DOWNTO )
+	bool up = ( token_type == TO ) ? true : false;//up = true - счётчик увеличивается ( TO ), иначе уменьшается ( DOWNTO )
 
-	int finish = get_exp_as_integer( &ok );//finish hranit konechnoe znachenie
+	int finish = get_exp_as_integer( &ok );//finish хранит конечное значение
 	if(!ok) return false;
 
 	if ( up )
@@ -81,12 +81,12 @@ bool ExecFor()
 	}
 
 	get_token();
-	if ( token_type!= DO )//ne nashli DO
+	if ( token_type!= DO )//не нашли DO
 	{
 		serror("Expected DO");
 		return false;
 	}
-	char* begin = prog;//sohranjaem poziciju. Otsjuda nachinaetsja iteracija cikla.
+	char* begin = prog;//сохраняем позицию. Отсюда начинается итерация цикла.
 	while ( 1 )
 	{
 		if ( !ExecOperator() ) return false;
@@ -105,7 +105,7 @@ bool ExecFor()
 bool PassFor()
 {
 	get_token();
-	//pereshli k schjotchiku.
+	//перешли к счётчику.
 	if( token_type != VARIABLE )
 	{
 		serror("Expected counter.");
