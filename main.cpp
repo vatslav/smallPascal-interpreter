@@ -4,6 +4,7 @@
 #include "Vars&Arrays.h"
 #include "expressions.h"
 #include <fstream>
+#include "assignment.h"
 
 using namespace std;
 
@@ -13,8 +14,22 @@ char* loadFile(int argc, char* argv[]);
 int main(int argc, char* argv[])
 {
     setlocale (LC_ALL,"RUS");
-	 prog = loadFile(argc, argv);
- /*    printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
+	prog = loadFile(argc, argv);
+	int tokInt = 0;
+	do {
+
+		tokInt = get_token();
+		switch(tok) {
+			case ASSIGNMENT:
+				assignment();
+				break;
+			case FOR:
+				//For function
+				break;
+		}
+	} while(tokInt != ERROR && tokInt != FINISHED);
+
+   /* printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
     while(1)
 	{
 	  int result = get_token();
@@ -55,16 +70,16 @@ int main(int argc, char* argv[])
 //fuction ();
 //    getchar();
 //getchar();*/
-bool ok, result;
+//bool ok, result;
 //strcpy( prog, "2+2.98" );
 //prog = "z*(2+3)";
-prog = "2 > 3";
+//prog = "2 > 3";
 //get_token ();
 //get_exp_abstract
 //result = get_exp_abstract( &Vars["z"]);
-result = get_logic_exp (&ok);
-printf("ok = %d, result = %d\n", ok, result );
-	printf("prog -> %s\n", prog );
+//result = get_logic_exp (&ok);
+//////printf("ok = %d, result = %d\n", ok, result );
+//	printf("prog -> %s\n", prog );
      //cout<<"var z="<<Vars["z"].value;
 
     return 0;
