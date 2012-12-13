@@ -8,7 +8,6 @@
 
 using namespace std;
 
-
 char* loadFile(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
@@ -16,21 +15,27 @@ int main(int argc, char* argv[])
     setlocale (LC_ALL,"RUS");
 	prog = loadFile(argc, argv);
 	int tokInt = 0;
-	do {
 
+	do {
 		tokInt = get_token();
 		switch(tok) {
 			case ASSIGNMENT:
+				testing = true;
 				assignment();
 				break;
 			case FOR:
 				//For function
 				break;
+			//И так далее..
 		}
 	} while(tokInt != ERROR && tokInt != FINISHED);
 
-   /* printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
-    while(1)
+
+
+
+
+  //  printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
+  /*  while(1)
 	{
 	  int result = get_token();
 	  ///еслkи ошибки или конец программы.
@@ -42,8 +47,8 @@ int main(int argc, char* argv[])
 		}
 		printf("%s \t\t%d - %s \t\t%d - %s", token, token_type,typeToName(token_type), tok,typeToName(tok) );
 		getchar();
-	}*/
-	AddVar ("x",INTEGER,10,true);
+	}
+/*	AddVar ("x",INTEGER,10,true);
 	AddVar ("s",INTEGER,20.5,true);
 
 

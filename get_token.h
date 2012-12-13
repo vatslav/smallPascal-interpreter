@@ -184,6 +184,8 @@ char get_token()
     }
 }
 
-
+void tokenBack() {
+	//TODO: Реализовать функцию которая перемещает *prog на токен влево
+}
 
 #endif // GET_TOKEN_H_INCLUDED

@@ -1,8 +1,9 @@
 Program Test
-    const a=5, b=3;
+    const a:=5, b:=3;
     var i,j,k:integer;
     y:array [1..a,1..b] of integer;
     Begin
+        k:=2+4;
         write (a);
         read (k);
     { Kommentarij 
