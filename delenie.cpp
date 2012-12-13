@@ -7,7 +7,7 @@ int main()
 {
 	float a=2.0;
 	float b=5.2;
-	float *i;
+	double *i;
 	int c = (int) b;
 	a= modf( b,  i);
 	// //a= a%b;

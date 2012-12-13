@@ -3,30 +3,18 @@
 #include "get_token.h"
 #include "Vars&Arrays.h"
 #include "expressions.h"
+#include <fstream>
 
 using namespace std;
 
-int main()
+
+char* loadFile(int argc, char* argv[]);
+
+int main(int argc, char* argv[])
 {
     setlocale (LC_ALL,"RUS");
-    //asdasd
-   /* prog = "Program Test\n"
-    "c:=3 "
-    "const a=5+2+g, b=3;\n"
-    "var\n"
-    "i,j:integer;\n"
-    "y:array [1..a,1..b] of integer;\n"
-    "Begin\n"
-    "    write (a);\n"
-    "    read (k);\n"
-    "{ Комментарий     \n"
-    "    Продолжение  }\n"
-    "    if a>=b then i:=a+1 else j:=b+1\n"
-    "    for i:=1 to a do i:=i*j;\n"
-    "    while (i>0) i:= i - 2\n"
-    "End.";
-    //" (1243+236)bsg+43.36";
-    printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
+	 prog = loadFile(argc, argv);
+ /*    printf("%s\n\nToken\t\tToken_type\tTok\n\n",prog);
     while(1)
 	{
 	  int result = get_token();
@@ -80,4 +68,29 @@ printf("ok = %d, result = %d\n", ok, result );
      //cout<<"var z="<<Vars["z"].value;
 
     return 0;
+}
+
+
+char* loadFile(int argc, char* argv[]) {
+	//Delaem zagruzku programmi cherez argumenti, ili po umolchanijy input.txt v korne
+	char inputFilePath[100];
+	if (argc > 1) {
+		strcpy(inputFilePath, argv[1]);
+	} else {
+		//strcpy(inputFilePath, argv[0]);
+		strcat(inputFilePath, "input.txt");
+	} //TODO: rabota s argumentami
+
+	ifstream iStream(inputFilePath);
+	string str;
+	string programText = "";
+	while(getline(iStream, str)) {
+		programText += str + "\n";
+	}
+	//const char* progText = programText.c_str();
+	//
+	char* progText = new char[programText.size() + 1];
+	copy(programText.begin(), programText.end(), progText);
+	progText[programText.size()] = '\0'; // don't forget the terminating 0
+	return progText;
 }
